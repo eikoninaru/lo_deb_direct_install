@@ -45,7 +45,7 @@ DOWNLOAD() {
 
 rm -rf /tmp/LO/
 MACHINE_TYPE=`uname -m`
-if [ ${MACHINE_TYPE} == 'x86_64' ]; then
+if [ ${MACHINE_TYPE} = 'x86_64' ]; then
   ARCH=x86_64
   ARCH2=x86-64
 else
