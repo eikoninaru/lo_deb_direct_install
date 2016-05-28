@@ -6,10 +6,10 @@
 Получить и установить скрипт можно разными способами, здесь рекомендуем использовать утилиту `curl` или `wget`
 #### Используя curl
 ~~~
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/Chocbo/lo_deb_direct_install/master/lo_direct_install.sh)"
+bash -c "$(curl -fsSL https://raw.githubusercontent.com/Chocbo/lo_deb_direct_install/master/lo_direct_install.sh)"
 ~~~
 #### Используя wget
 ~~~
- sh -c "$(wget https://raw.githubusercontent.com/Chocbo/lo_deb_direct_install/master/lo_direct_install.sh -O -)"
+ bash -c "$(wget https://raw.githubusercontent.com/Chocbo/lo_deb_direct_install/master/lo_direct_install.sh -O -)"
 ~~~
 Далее, следуйте подсказкам в появившемся окне.
