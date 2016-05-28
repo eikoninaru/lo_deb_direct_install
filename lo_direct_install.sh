@@ -10,7 +10,7 @@
 # 24/05/16 - v0.2 
 # added zenity progressbar based on https://gist.github.com/axidsugar/79f284a4d51a0171eac8
 #
-
+# zenity-progressbar func
 DOWNLOAD() {
   echo $1
   rand="$RANDOM `date`"
@@ -43,7 +43,8 @@ DOWNLOAD() {
 }
 
 
-rm -rf /tmp/LO/
+# check what architecture is used
+ARCH_CHECK(){
 MACHINE_TYPE=`uname -m`
 if [ ${MACHINE_TYPE} = 'x86_64' ]; then
   ARCH=x86_64
@@ -52,22 +53,37 @@ else
   ARCH=x86
   ARCH2=x86
 fi
-
-zenity --info --width=350 --text="Привет!\n\n Сейчас мы будем устанавливать LibreOffice из .deb-пактов c оф.сайта. \n\n Насколько мы сумели определить - подойдёт $ARCH-битная версия. \n\n Давай уже выберем какую именно... "
+}
+GET_VERSIONS(){
 wget -qO- download.documentfoundation.org/libreoffice/stable/ | grep -o '[0-9]\.[0-9]\.[0-9]' | uniq > /tmp/lo_v_a
+}
+GET_DL_LINKS(){
+dllink_base=http://download.documentfoundation.org/libreoffice/stable/$VERSION/deb/$ARCH/LibreOffice_$VERSION\_Linux_$ARCH2\_deb.tar.gz
+dllink_lang=http://download.documentfoundation.org/libreoffice/stable/$VERSION/deb/$ARCH/LibreOffice_$VERSION\_Linux_$ARCH2\_deb_langpack_ru.tar.gz
+dllink_help=http://download.documentfoundation.org/libreoffice/stable/$VERSION/deb/$ARCH/LibreOffice_$VERSION\_Linux_$ARCH2\_deb_helppack_ru.tar.gz
+}
+
+RM_TMP_FOLDER(){# remove temporary downloads folder
+rm -rf /tmp/LO/
+}
+
+RM_TMP_FOLDER
+
+ARCH_CHECK
+# first window (greetings)
+zenity --info --width=350 --text="Привет!\n\n Сейчас мы будем устанавливать LibreOffice из .deb-пактов c оф.сайта. \n\n Насколько мы сумели определить - подойдёт $ARCH-битная версия. \n\n Давай уже выберем какую именно... "
+# get available version from LO mirror and show user choice
+GET_VERSIONS
 VERSION=`cat /tmp/lo_v_a | \
          sed 's/^/FALSE\n/g' | \
          zenity --width=350 --height=250  --list --radiolist --separator=' ' \
                 --title="Выбор версии" \
                 --text="Пожалуйста выберите версию:" --column="" --column="Files"`
-echo $CHECKED
 
 mkdir -p /tmp/LO/{download,deb} && cd /tmp/LO/download
-dllink_base=http://download.documentfoundation.org/libreoffice/stable/$VERSION/deb/$ARCH/LibreOffice_$VERSION\_Linux_$ARCH2\_deb.tar.gz
+GET_DL_LINKS
 DOWNLOAD "$dllink_base"
-dllink_lang=http://download.documentfoundation.org/libreoffice/stable/$VERSION/deb/$ARCH/LibreOffice_$VERSION\_Linux_$ARCH2\_deb_langpack_ru.tar.gz
 DOWNLOAD "$dllink_lang"
-dllink_help=http://download.documentfoundation.org/libreoffice/stable/$VERSION/deb/$ARCH/LibreOffice_$VERSION\_Linux_$ARCH2\_deb_helppack_ru.tar.gz
 DOWNLOAD "$dllink_help"
 tar -xvf LibreOffice_$VERSION\_Linux_$ARCH2\_deb.tar.gz 
 tar -xvf LibreOffice_$VERSION\_Linux_$ARCH2\_deb_langpack_ru.tar.gz 
