@@ -62,8 +62,8 @@ dllink_base=http://download.documentfoundation.org/libreoffice/stable/$VERSION/d
 dllink_lang=http://download.documentfoundation.org/libreoffice/stable/$VERSION/deb/$ARCH/LibreOffice_$VERSION\_Linux_$ARCH2\_deb_langpack_ru.tar.gz
 dllink_help=http://download.documentfoundation.org/libreoffice/stable/$VERSION/deb/$ARCH/LibreOffice_$VERSION\_Linux_$ARCH2\_deb_helppack_ru.tar.gz
 }
-
-RM_TMP_FOLDER(){# remove temporary downloads folder
+# remove temporary downloads folder
+RM_TMP_FOLDER(){
 rm -rf /tmp/LO/
 }
 
